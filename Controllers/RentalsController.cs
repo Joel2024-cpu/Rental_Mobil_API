@@ -1,0 +1,69 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
+using Dapper;
+
+[ApiController]
+[Route("api/[controller]")]
+public class RentalsController : ControllerBase
+{
+    private readonly IConfiguration _config;
+
+    public RentalsController(IConfiguration config)
+    {
+        _config = config;
+    }
+
+    private NpgsqlConnection GetConnection()
+    {
+        return new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
+    }
+
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        using var conn = GetConnection();
+
+        var data = conn.Query(@"
+            SELECT r.*, u.name as user_name, c.name as car_name
+            FROM rentals r
+            JOIN users u ON r.user_id = u.id
+            JOIN cars c ON r.car_id = c.id");
+
+        return Ok(new { status = "success", data });
+    }
+
+    [HttpPost]
+    public IActionResult Create(Rental rental)
+    {
+        using var conn = GetConnection();
+
+        // VALIDASI USER
+        var user = conn.QueryFirstOrDefault("SELECT * FROM users WHERE id=@id",
+            new { id = rental.User_Id });
+
+        if (user == null)
+        {
+            return NotFound(new { status = "error", message = "User tidak ditemukan" });
+        }
+
+        // VALIDASI CAR
+        var car = conn.QueryFirstOrDefault("SELECT * FROM cars WHERE id=@id",
+            new { id = rental.Car_Id });
+
+        if (car == null)
+        {
+            return NotFound(new { status = "error", message = "Mobil tidak ditemukan" });
+        }
+
+        conn.Execute(@"
+            INSERT INTO rentals(user_id, car_id, rent_date, return_date)
+            VALUES(@User_Id, @Car_Id, @Rent_Date, @Return_Date)", rental);
+
+        return StatusCode(201, new
+        {
+            status = "success",
+            message = "Rental berhasil ditambahkan"
+        });
+    }
+}
