@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Dapper;
@@ -22,39 +23,124 @@ public class UsersController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        using var conn = GetConnection();
-        var data = conn.Query("SELECT * FROM users");
-        return Ok(new { status = "success", data });
+        try
+        {
+            using var conn = GetConnection();
+
+            var data = conn.Query(
+                "SELECT id, name, email FROM users ORDER BY id ASC"
+            );
+
+            return Ok(new
+            {
+                status = "success",
+                data
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                status = "error",
+                message = "Gagal mengambil data user",
+                detail = ex.Message
+            });
+        }
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        using var conn = GetConnection();
-        var data = conn.QueryFirstOrDefault("SELECT * FROM users WHERE id=@id", new { id });
-
-        if (data == null)
+        try
         {
-            return NotFound(new { status = "error", message = "Data user tidak ditemukan" });
-        }
+            using var conn = GetConnection();
 
-        return Ok(new { status = "success", data });
+            var data = conn.QueryFirstOrDefault(
+                "SELECT id, name, email FROM users WHERE id=@id",
+                new { id }
+            );
+
+            if (data == null)
+            {
+                return NotFound(new
+                {
+                    status = "error",
+                    message = "User tidak ditemukan"
+                });
+            }
+
+            return Ok(new
+            {
+                status = "success",
+                data
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                status = "error",
+                message = "Terjadi kesalahan server",
+                detail = ex.Message
+            });
+        }
     }
 
+
+    [Authorize]
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        using var conn = GetConnection();
-
-        var cek = conn.QueryFirstOrDefault("SELECT * FROM users WHERE id=@id", new { id });
-
-        if (cek == null)
+        try
         {
-            return NotFound(new { status = "error", message = "Data user tidak ditemukan" });
+            using var conn = GetConnection();
+
+            // Cek user
+            var user = conn.QueryFirstOrDefault(
+                "SELECT * FROM users WHERE id=@id",
+                new { id }
+            );
+
+            if (user == null)
+            {
+                return NotFound(new
+                {
+                    status = "error",
+                    message = "User tidak ditemukan"
+                });
+            }
+
+            var rental = conn.QueryFirstOrDefault(
+                "SELECT * FROM rentals WHERE user_id=@id",
+                new { id }
+            );
+
+            if (rental != null)
+            {
+                return BadRequest(new
+                {
+                    status = "error",
+                    message = "User tidak bisa dihapus karena masih memiliki data rental"
+                });
+            }
+
+            // Hapus user
+            conn.Execute("DELETE FROM users WHERE id=@id", new { id });
+
+            return Ok(new
+            {
+                status = "success",
+                message = "User berhasil dihapus"
+            });
         }
-
-        conn.Execute("DELETE FROM users WHERE id=@id", new { id });
-
-        return Ok(new { status = "success", message = "User berhasil dihapus" });
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                status = "error",
+                message = "Gagal menghapus user",
+                detail = ex.Message
+            });
+        }
     }
 }

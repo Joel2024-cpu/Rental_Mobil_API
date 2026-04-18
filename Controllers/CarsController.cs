@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Dapper;
@@ -21,9 +23,6 @@ namespace RentalMobilAPI.Controllers
             return new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
         }
 
-        // =========================
-        // GET ALL
-        // =========================
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -48,9 +47,7 @@ namespace RentalMobilAPI.Controllers
             }
         }
 
-        // =========================
-        // GET BY ID (ADA VALIDASI)
-        // =========================
+
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -88,9 +85,6 @@ namespace RentalMobilAPI.Controllers
             }
         }
 
-        // =========================
-        // POST
-        // =========================
         [HttpPost]
         public IActionResult Create(Car car)
         {
@@ -129,9 +123,6 @@ namespace RentalMobilAPI.Controllers
             }
         }
 
-        // =========================
-        // PUT
-        // =========================
         [HttpPut("{id}")]
         public IActionResult Update(int id, Car car)
         {

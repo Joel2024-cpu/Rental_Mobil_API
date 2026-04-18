@@ -37,3 +37,12 @@ C:\Users\agung\source\repos\RentalMobil\RentalMobil\obj\Debug\net8.0\refint\Rent
 C:\Users\agung\source\repos\RentalMobil\RentalMobil\obj\Debug\net8.0\RentalMobil.pdb
 C:\Users\agung\source\repos\RentalMobil\RentalMobil\obj\Debug\net8.0\RentalMobil.genruntimeconfig.cache
 C:\Users\agung\source\repos\RentalMobil\RentalMobil\obj\Debug\net8.0\ref\RentalMobil.dll
+C:\Users\agung\source\repos\RentalMobil\RentalMobil\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\agung\source\repos\RentalMobil\RentalMobil\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\agung\source\repos\RentalMobil\RentalMobil\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\agung\source\repos\RentalMobil\RentalMobil\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\agung\source\repos\RentalMobil\RentalMobil\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\agung\source\repos\RentalMobil\RentalMobil\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\agung\source\repos\RentalMobil\RentalMobil\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\agung\source\repos\RentalMobil\RentalMobil\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\agung\source\repos\RentalMobil\RentalMobil\obj\Debug\net8.0\RentalMobil.sourcelink.json
