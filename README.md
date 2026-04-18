@@ -22,7 +22,6 @@ Domain yang dipilih adalah **manajemen rental mobil**, yang mencakup:
 
   * Visual Studio 2022
   * pgAdmin
-  * Postman (testing API)
 
 ---
 
@@ -213,28 +212,6 @@ Sesuaikan:
 
 Berikut adalah link video presentasi project:
 
-
+https://youtu.be/oH6I7ZLxi48
 
 ---
-
-## Catatan
-
-* Sistem menggunakan **soft delete** pada tabel cars
-* Validasi ID diterapkan pada endpoint GET by ID
-* Response API menggunakan format JSON konsisten:
-
-```json
-{
-  "status": "success",
-  "data": {...}
-}
-```
-
-atau
-
-```json
-{
-  "status": "error",
-  "message": "Data tidak ditemukan"
-}
-```
