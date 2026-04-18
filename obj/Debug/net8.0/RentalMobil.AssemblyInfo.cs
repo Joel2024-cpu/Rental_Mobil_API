@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RentalMobil")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b52073b5c42f5f7882eeb6831e7f8b1afb01be50")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+277b8ce9c59269f4cd464e55d5f4cd77967f03ee")]
 [assembly: System.Reflection.AssemblyProductAttribute("RentalMobil")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RentalMobil")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
